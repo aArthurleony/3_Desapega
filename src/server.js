@@ -6,6 +6,9 @@ const PORT = process.env.PORT;
 //importar conexçao
 import conn from "./config/conn.js";
 
+//importacao dos modulos TABELA
+import "./models/usuariomodel.js"
+
 //404
 const app = express();
 
