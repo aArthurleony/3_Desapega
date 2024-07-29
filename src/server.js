@@ -9,16 +9,21 @@ import conn from "./config/conn.js";
 //importacao dos modulos TABELA
 import "./models/usuariomodel.js"
 
-//404
+//Importar as rotas
+import usuarioRouter from "./routes/usuarioroutes.js"
+
 const app = express();
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())   
 
-app.get("/", (request, response) => {
-  response.send("Olá mundo!");
-});
+//utilizar as rotas
+app.use("/usuarios", usuarioRouter)
 
+//404
 app.use((request, response) => {
   response.status(404).json({ message: "Rota nao encontrada" });
 });
+
 app.listen(PORT, () => {
   console.log("Servidor on PORT: " + PORT);
 });
