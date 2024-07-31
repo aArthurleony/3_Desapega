@@ -123,12 +123,30 @@ export const login = (request, response) => {
 //*verificar usuário
 export const checkUser = (request, response) => {
   let usuarioAtual;
+
   //*criar um helper para fazer a verificação
+
   if (request.headers.authorization) {
     const token = getToken(request);
-    console.log(token);
+
     const decoded = jwt.decode(token, "SENHASUPERSEGURAEDIFICIL");
-    console.log(decoded);
+
+    const usuarioId = decoded.id;
+
+    const checkSQL = /*sql*/ `SELECT * FROM usuarios WHERE ?? = ?`;
+    const checkData = ["usuario_id", usuarioId];
+
+    conn.query(checkSQL, checkData, (err, data) => {
+      if (err) {
+        console.error(err);
+        response.status(500).json({ err: "Erro ao verificar usuário" });
+        return;
+      }
+      usuarioAtual = data[0];
+      response.status(200).json(usuarioAtual);
+    });
   } else {
+    usuarioAtual = null;
+    response.status(200).json(usuarioAtual);
   }
 };
