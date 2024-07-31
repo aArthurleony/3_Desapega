@@ -1,9 +1,11 @@
 import conn from "../config/conn.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
 
 //*helpers
 import createUserToken from "../helpers/create-user-token.js";
+import getToken from "../helpers/get-token.js";
 
 //*criar usuario
 export const register = (request, response) => {
@@ -116,4 +118,17 @@ export const login = (request, response) => {
       response.status(500).json({ err: "Erro ao processar informação" });
     }
   });
+};
+
+//*verificar usuário
+export const checkUser = (request, response) => {
+  let usuarioAtual;
+  //*criar um helper para fazer a verificação
+  if (request.headers.authorization) {
+    const token = getToken(request);
+    console.log(token);
+    const decoded = jwt.decode(token, "SENHASUPERSEGURAEDIFICIL");
+    console.log(decoded);
+  } else {
+  }
 };
