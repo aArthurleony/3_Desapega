@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 //*helpers
 import createUserToken from "../helpers/create-user-token.js";
 import getToken from "../helpers/get-token.js";
-import { response } from "express";
+import getUserByToken from "../helpers/get-user-by-token.js";
 
 //*criar usuario
 export const register = (request, response) => {
@@ -175,9 +175,15 @@ export const editUser = async (request, response) => {
   const { id } = request.params;
 
   //*verificar se o usuário está logado
+  try {
+    const token = getToken(request);
+    //*buscar dados no banco, nova consulta ao banco
+    const user = await getUserByToken(token);
+    console.log(user);
+  } catch (error) {
+    response.status(500).json({ err: error });
+  }
+  const token = getToken(request);
 
-  const token = getToken(request)
-  
-  console.log(token)
-
+  console.log(token);
 };
