@@ -5,11 +5,13 @@ import {
   register,
   login,
   checkUser,
-  getUserById
+  getUserById,
+  editUser,
 } from "../controllers/usuariocontroller.js";
 
 //*importar os helpers
 import validarUsuario from "../helpers/validar-user.js";
+import verifyToken from "../helpers/verify-token.js"
 
 const router = Router();
 
@@ -18,5 +20,7 @@ router.post("/register", validarUsuario, register);
 router.post("/login", login);
 router.get("/checkuser", checkUser);
 router.get("/:id", getUserById);
+//*verificar se está logado na aplicação e upload de imagem para perfil
+router.put("/edit/:id", verifyToken, editUser);
 
 export default router;
