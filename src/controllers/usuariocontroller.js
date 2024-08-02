@@ -175,12 +175,23 @@ export const editUser = async (request, response) => {
   const { id } = request.params;
   //*verificar se o usuário está logado
   try {
-
     const token = getToken(request);
     //*buscar dados no banco, nova consulta ao banco
     const user = await getUserByToken(token);
-    console.log(user);
-    
+
+    const { nome, email, telefone } = request.body;
+    if (!nome) {
+      response.status(400).json({ message: "O nome é obrigatório" });
+      return;
+    }
+    if (!email) {
+      response.status(400).json({ message: "O email é obrigatório" });
+      return;
+    }
+    if (!telefone) {
+      response.status(400).json({ message: "O telefone é obrigatório" });
+      return;
+    }
   } catch (error) {
     response.status(500).json({ err: error });
   }
