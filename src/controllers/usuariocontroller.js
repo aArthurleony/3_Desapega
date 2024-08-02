@@ -192,6 +192,46 @@ export const editUser = async (request, response) => {
       response.status(400).json({ message: "O telefone é obrigatório" });
       return;
     }
+    const checkSQL = /*sql*/ `SELECT * FROM usuarios WHERE ?? = ?`;
+    const checkData = ["usuario_id", id];
+    conn.query(checkSQL, checkData, (err, data) => {
+      if (err) {
+        console.error(err);
+        response.status(500).json({ err: "erro ao buscar usuários" });
+        return;
+      }
+      if (data.length === 0) {
+        response.status(404).json({ err: "usuário nao encontrado" });
+        return;
+      }
+      //* validação de usuário do banco é a mesma do token
+      //*verifique se o email ja está em uso
+      const checkEmailSQL = /*sql*/ `SELECT * FROM usuarios WHERE ?? = ? AND ?? != ?`;
+      const checkEmailData = ["email", email, "usuario_id", id];
+      conn.query(checkEmailSQL, checkEmailData, (err, data) => {
+        if (err) {
+          console.error(err);
+          response.status(500).json({ message: "Erro ao buscar dados" });
+          return;
+        }
+        if (data.length > 0) {
+          console.error(err);
+          response.status(500).json({ message: "Erro ao buscar dados" });
+          return;
+        }
+
+        const update = /*sql*/ `UPDATE usuarios SET ? WHERE ?? = ?`;
+        const updateData = [{ nome, email, telefone }, "usuario_id", id];
+        conn.query(update, updateData, (err) => {
+          if (err) {
+            console.error(err);
+            response.status(500).json({ message: "Erro ao atualizar usuário" });
+            return;
+          }
+          response.status(200).json({ message: "Usuário atualizado🤗🤗🤗🤗🤗" });
+        });
+      });
+    });
   } catch (error) {
     response.status(500).json({ err: error });
   }
