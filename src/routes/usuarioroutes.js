@@ -5,6 +5,7 @@ import {
   register,
   login,
   checkUser,
+  getUserById
 } from "../controllers/usuariocontroller.js";
 
 //*importar os helpers
@@ -15,6 +16,7 @@ const router = Router();
 //*localhost:3333/usuarios/register
 router.post("/register", validarUsuario, register);
 router.post("/login", login);
-router.get("/:id", checkUser);
+router.get("/checkuser", checkUser);
+router.get("/:id", getUserById);
 
 export default router;

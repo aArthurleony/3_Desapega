@@ -150,3 +150,23 @@ export const checkUser = (request, response) => {
     response.status(200).json(usuarioAtual);
   }
 };
+
+export const getUserById = (request, response) => {
+  const { id } = request.params;
+  const checkSQL = /*sql*/ `SELECT usuario_id, nome, email, telefone, imagem FROM usuarios WHERE ?? = ?`;
+
+  const checkData = ["usuario_id", id];
+  conn.query(checkSQL, checkData, (err, data) => {
+    if (err) {
+      console.error(err);
+      response.status(500).json({ err: "Erro ao buscar usuario" });
+      return;
+    }
+    if (data.length === 0) {
+      response.status(404).json({ err: "Usuario nao encontradoo" });
+      return;
+    }
+    const usuario = data[0]
+    response.status(200).json(usuario)
+  });
+};
