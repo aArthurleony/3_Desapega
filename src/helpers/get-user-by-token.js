@@ -6,8 +6,13 @@ const getUserByToken = async (token) => {
       return;
     }
     const decoded = jwt.verify(token, "SENHASUPERSEGURAEDIFICIL");
-    console.log(decoded)
+    //* console.log("função get user: ", decoded);
+
+    const userID = decoded.id
+    // *console.log("userID: ",userID)
+    const checkSQL = /*sql*/`SELECT * FROM usuarios WHERE ?? = ?`
+    const checkData = ["usuario_id", userID]
   });
 };
 
-export default getUserByToken
+export default getUserByToken;

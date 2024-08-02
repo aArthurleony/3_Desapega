@@ -173,17 +173,15 @@ export const getUserById = (request, response) => {
 };
 export const editUser = async (request, response) => {
   const { id } = request.params;
-
   //*verificar se o usuário está logado
   try {
+
     const token = getToken(request);
     //*buscar dados no banco, nova consulta ao banco
     const user = await getUserByToken(token);
     console.log(user);
+    
   } catch (error) {
     response.status(500).json({ err: error });
   }
-  const token = getToken(request);
-
-  console.log(token);
 };
