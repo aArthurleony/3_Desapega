@@ -8,7 +8,7 @@ const PORT = process.env.PORT;
 //*importar conexçao
 import conn from "./config/conn.js";
 
-//*importacao dos modulos TABELA
+//*importacao dos modulos TABELAA
 import "./models/usuariomodel.js";
 
 //*Importar as rotas

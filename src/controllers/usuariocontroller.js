@@ -180,6 +180,12 @@ export const editUser = async (request, response) => {
     const user = await getUserByToken(token);
 
     const { nome, email, telefone } = request.body;
+
+    //*adicionar imagem ao objeto
+    let imagem = user.imagem;
+    if (request.file) {
+      imagem = request.file.filename;
+    }
     if (!nome) {
       response.status(400).json({ message: "O nome é obrigatório" });
       return;
@@ -221,18 +227,21 @@ export const editUser = async (request, response) => {
         }
 
         const update = /*sql*/ `UPDATE usuarios SET ? WHERE ?? = ?`;
-        const updateData = [{ nome, email, telefone }, "usuario_id", id];
+        const updateData = [{ nome, email, telefone,imagem }, "usuario_id", id];
         conn.query(update, updateData, (err) => {
           if (err) {
             console.error(err);
             response.status(500).json({ message: "Erro ao atualizar usuário" });
             return;
           }
-          response.status(200).json({ message: "Usuário atualizado🤗🤗🤗🤗🤗" });
+          response
+            .status(200)
+            .json({ message: "Usuário atualizado🤗🤗🤗🤗🤗" });
         });
       });
     });
   } catch (error) {
-    response.status(500).json({ err: error });
+    console.log(error)
+    response.status(error.status || 500).json({ message: error.message || "erro interno no servidor"});
   }
 };

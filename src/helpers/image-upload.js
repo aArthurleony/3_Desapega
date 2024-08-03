@@ -19,15 +19,23 @@ const imageStore = multer.diskStorage({
     cb(null, path.join(__dirname, `../public/${folder}`));
   },
   filename: (request, file, cb) => {
-    cb(null, Date.now() + String(Math.floor(Math.random() * 1000)) + path.extname(file.originalname))
+    cb(
+      null,
+      Date.now() +
+        String(Math.floor(Math.random() * 1000)) +
+        path.extname(file.originalname)
+    );
   },
 });
 
 const imageUpload = multer({
-    storage: imageStore,
-    fileFilter(request, file, cb){
-        if(!file.originalname.match(/\.(png||jpg)$/)){
-            
-        }
+  storage: imageStore,
+  fileFilter(request, file, cb) {
+    if (!file.originalname.match(/\.(png||jpg)$/)) {
+      return cb(new Error("por favor, envie apenas jpg ou png"));
     }
-})
+    cb(null, true);
+  },
+});
+
+export default imageUpload;

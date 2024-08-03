@@ -11,7 +11,8 @@ import {
 
 //*importar os helpers
 import validarUsuario from "../helpers/validar-user.js";
-import verifyToken from "../helpers/verify-token.js"
+import verifyToken from "../helpers/verify-token.js";
+import imageUpload from "../helpers/image-upload.js";
 
 const router = Router();
 
@@ -21,6 +22,6 @@ router.post("/login", login);
 router.get("/checkuser", checkUser);
 router.get("/:id", getUserById);
 //*verificar se está logado na aplicação e upload de imagem para perfil
-router.put("/edit/:id", verifyToken, editUser);
+router.put("/edit/:id", verifyToken, imageUpload.single("imagem"), editUser);
 
 export default router;
