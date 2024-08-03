@@ -8,13 +8,14 @@ const PORT = process.env.PORT;
 //*importar conexçao
 import conn from "./config/conn.js";
 
-//*importacao dos modulos TABELAA
+//*importacao dos modulos TABELA
 import "./models/usuariomodel.js";
 import "./models/objetoModel.js";
+import "./models/objetoImageModel.js"
 
 //*Importar as rotas
 import usuarioRouter from "./routes/usuarioroutes.js";
-
+import objetoRouter from "./routes/objetoRouter.js"
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,6 +29,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 //*utilizar as rotas
 app.use("/usuarios", usuarioRouter);
+app.use("/objetos", objetoRouter);
 
 //*404
 app.use((request, response) => {
