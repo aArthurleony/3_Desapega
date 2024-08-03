@@ -10,6 +10,7 @@ import conn from "./config/conn.js";
 
 //*importacao dos modulos TABELAA
 import "./models/usuariomodel.js";
+import "./models/objetoModel.js";
 
 //*Importar as rotas
 import usuarioRouter from "./routes/usuarioroutes.js";
